@@ -16,16 +16,56 @@
 
         <section>
             <h2>Basic Tracking</h2>
-            <button id="track-btn">Track Custom Event</button>
-            <button id="identify-btn">Identify User</button>
-            <button id="pageview-btn">Track Page View</button>
+            <button onclick="track('Custom Button Clicked', { button_name: 'Track Custom Event', timestamp: new Date().toISOString(), page: 'example' }); alert('Custom event tracked!');">
+                Track Custom Event
+            </button>
+            <button onclick="const userId = `user_${Date.now()}`; identify(userId, { name: 'Example User', email: 'user@example.com', signup_date: new Date().toISOString() }); alert(`User identified as: ${userId}`);">
+                Identify User
+            </button>
+            <button onclick="trackPageView({ custom_property: 'manual_tracking', section: 'example' }); alert('Page view tracked!');">
+                Track Page View
+            </button>
+        </section>
+
+        <section>
+            <h2>Inline Event Handlers</h2>
+            <button onclick="track('Inline Event', { method: 'inline', timestamp: new Date().toISOString() }); alert('Inline event tracked!');">
+                Track Event (Inline)
+            </button>
+            <button onclick="setUserProperties({ inline_interaction: true }); alert('User properties set via inline handler!');">
+                Set Properties (Inline)
+            </button>
+            <button onclick="if(confirm('Reset user data?')) { reset(); alert('User reset via inline handler!'); }">
+                Reset User (Inline)
+            </button>
+        </section>
+
+        <section>
+            <h2>Astro Component Example</h2>
+            <button onclick="mixpanel.track('Astro Component Button Clicked', { source: 'example_component' }); alert('Astro component event tracked!');">
+                Track Astro Component Event
+            </button>
+
+            <button onclick="mixpanel.identify('astro_component_user', { name: 'Astro User', email: 'astro@example.com' }); alert('Astro component user identified!');">
+                Identify Astro Component User
+            </button>
+
+            <button onclick="mixpanel.trackPageView({ component: 'AstroExample', custom_property: 'astro_tracking' }); alert('Astro component page view tracked!');">
+                Track Astro Component Page View
+            </button>
         </section>
 
         <section>
             <h2>E-commerce Example</h2>
-            <button id="product-view-btn">View Product</button>
-            <button id="add-cart-btn">Add to Cart</button>
-            <button id="purchase-btn">Complete Purchase</button>
+            <button onclick="track('Product Viewed', { product_id: 'EXAMPLE_SKU_123', product_name: 'Example Product', category: 'Electronics', price: 99.99, currency: 'USD' }); alert('Product view tracked!');">
+                View Product
+            </button>
+            <button onclick="track('Product Added to Cart', { product_id: 'EXAMPLE_SKU_123', quantity: 1, price: 99.99, cart_total: 99.99 }); alert('Add to cart tracked!');">
+                Add to Cart
+            </button>
+            <button onclick="track('Purchase Completed', { order_id: `ORDER_${Date.now()}`, total: 99.99, currency: 'USD', items: ['EXAMPLE_SKU_123'], payment_method: 'credit_card' }); alert('Purchase tracked!');">
+                Complete Purchase
+            </button>
         </section>
 
         <section>
@@ -50,65 +90,10 @@
         } from '../../../src/client.js';
 
         // Basic tracking examples
-        document.getElementById('track-btn')?.addEventListener('click', () => {
-            track('Custom Button Clicked', {
-                button_name: 'Track Custom Event',
-                timestamp: new Date().toISOString(),
-                page: 'example'
-            });
-            alert('Custom event tracked!');
-        });
-
-        document.getElementById('identify-btn')?.addEventListener('click', () => {
-            const userId = `user_${Date.now()}`;
-            identify(userId, {
-                name: 'Example User',
-                email: 'user@example.com',
-                signup_date: new Date().toISOString()
-            });
-            alert(`User identified as: ${userId}`);
-        });
-
-        document.getElementById('pageview-btn')?.addEventListener('click', () => {
-            trackPageView({
-                custom_property: 'manual_tracking',
-                section: 'example'
-            });
-            alert('Page view tracked!');
-        });
+        // Now handled with inline onclick handlers above
 
         // E-commerce tracking examples
-        document.getElementById('product-view-btn')?.addEventListener('click', () => {
-            track('Product Viewed', {
-                product_id: 'EXAMPLE_SKU_123',
-                product_name: 'Example Product',
-                category: 'Electronics',
-                price: 99.99,
-                currency: 'USD'
-            });
-            alert('Product view tracked!');
-        });
-
-        document.getElementById('add-cart-btn')?.addEventListener('click', () => {
-            track('Product Added to Cart', {
-                product_id: 'EXAMPLE_SKU_123',
-                quantity: 1,
-                price: 99.99,
-                cart_total: 99.99
-            });
-            alert('Add to cart tracked!');
-        });
-
-        document.getElementById('purchase-btn')?.addEventListener('click', () => {
-            track('Purchase Completed', {
-                order_id: `ORDER_${Date.now()}`,
-                total: 99.99,
-                currency: 'USD',
-                items: ['EXAMPLE_SKU_123'],
-                payment_method: 'credit_card'
-            });
-            alert('Purchase tracked!');
-        });
+        // Now handled with inline onclick handlers above
 
         // User management examples
         document.getElementById('set-props-btn')?.addEventListener('click', () => {

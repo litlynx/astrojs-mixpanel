@@ -83,6 +83,17 @@ setUserProperties({
 </script>
 ```
 
+or
+
+```astro
+---
+// MyComponent.astro
+---
+<button on:click={() => mixpanel.track('Sign Up Button Clicked', { source: 'hero_section' })}>
+  Sign Up
+</button>
+```
+
 ### Advanced Configuration
 
 ```javascript

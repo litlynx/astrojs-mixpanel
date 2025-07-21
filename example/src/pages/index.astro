@@ -1,0 +1,193 @@
+---
+// Example Astro component showing how to use Mixpanel tracking
+---
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Mixpanel Example</title>
+</head>
+<body>
+    <main>
+        <h1>Astro Mixpanel Integration Example</h1>
+
+        <section>
+            <h2>Basic Tracking</h2>
+            <button id="track-btn">Track Custom Event</button>
+            <button id="identify-btn">Identify User</button>
+            <button id="pageview-btn">Track Page View</button>
+        </section>
+
+        <section>
+            <h2>E-commerce Example</h2>
+            <button id="product-view-btn">View Product</button>
+            <button id="add-cart-btn">Add to Cart</button>
+            <button id="purchase-btn">Complete Purchase</button>
+        </section>
+
+        <section>
+            <h2>User Management</h2>
+            <button id="set-props-btn">Set User Properties</button>
+            <button id="increment-btn">Increment Counter</button>
+            <button id="reset-btn">Reset User</button>
+        </section>
+    </main>
+
+    <script>
+        // Import Mixpanel client functions
+        import {
+            track,
+            identify,
+            trackPageView,
+            setUserProperties,
+            incrementUserProperties,
+            reset,
+            registerGlobalProperties,
+            getDistinctId
+        } from 'astrojs-mixpanel/client';
+
+        // Basic tracking examples
+        document.getElementById('track-btn')?.addEventListener('click', () => {
+            track('Custom Button Clicked', {
+                button_name: 'Track Custom Event',
+                timestamp: new Date().toISOString(),
+                page: 'example'
+            });
+            alert('Custom event tracked!');
+        });
+
+        document.getElementById('identify-btn')?.addEventListener('click', () => {
+            const userId = `user_${Date.now()}`;
+            identify(userId, {
+                name: 'Example User',
+                email: 'user@example.com',
+                signup_date: new Date().toISOString()
+            });
+            alert(`User identified as: ${userId}`);
+        });
+
+        document.getElementById('pageview-btn')?.addEventListener('click', () => {
+            trackPageView({
+                custom_property: 'manual_tracking',
+                section: 'example'
+            });
+            alert('Page view tracked!');
+        });
+
+        // E-commerce tracking examples
+        document.getElementById('product-view-btn')?.addEventListener('click', () => {
+            track('Product Viewed', {
+                product_id: 'EXAMPLE_SKU_123',
+                product_name: 'Example Product',
+                category: 'Electronics',
+                price: 99.99,
+                currency: 'USD'
+            });
+            alert('Product view tracked!');
+        });
+
+        document.getElementById('add-cart-btn')?.addEventListener('click', () => {
+            track('Product Added to Cart', {
+                product_id: 'EXAMPLE_SKU_123',
+                quantity: 1,
+                price: 99.99,
+                cart_total: 99.99
+            });
+            alert('Add to cart tracked!');
+        });
+
+        document.getElementById('purchase-btn')?.addEventListener('click', () => {
+            track('Purchase Completed', {
+                order_id: `ORDER_${Date.now()}`,
+                total: 99.99,
+                currency: 'USD',
+                items: ['EXAMPLE_SKU_123'],
+                payment_method: 'credit_card'
+            });
+            alert('Purchase tracked!');
+        });
+
+        // User management examples
+        document.getElementById('set-props-btn')?.addEventListener('click', () => {
+            setUserProperties({
+                subscription_tier: 'premium',
+                preferences: {
+                    theme: 'dark',
+                    notifications: true
+                },
+                last_active: new Date().toISOString()
+            });
+            alert('User properties set!');
+        });
+
+        document.getElementById('increment-btn')?.addEventListener('click', () => {
+            incrementUserProperties({
+                page_views: 1,
+                button_clicks: 1
+            });
+            alert('User properties incremented!');
+        });
+
+        document.getElementById('reset-btn')?.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset user data?')) {
+                reset();
+                alert('User data reset!');
+            }
+        });
+
+        // Set some global properties
+        registerGlobalProperties({
+            page_type: 'example',
+            feature_flag: 'new_ui_enabled'
+        });
+
+        // Log the current distinct ID
+        console.log('Current distinct ID:', getDistinctId());
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        button {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #666;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</body>
+</html>

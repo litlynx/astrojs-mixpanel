@@ -1,0 +1,60 @@
+{
+  "name": "astrojs-mixpanel",
+  "version": "1.0.0",
+  "description": "A simple and easy-to-use Mixpanel integration for Astro.js with minimal configuration",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "astro",
+    "astrojs",
+    "mixpanel",
+    "analytics",
+    "integration",
+    "astro-component",
+    "withastro"
+  ],
+  "author": "LitLynx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/litlynx/astrojs-mixpanel.git"
+  },
+  "homepage": "https://github.com/litlynx/astrojs-mixpanel#readme",
+  "bugs": {
+    "url": "https://github.com/litlynx/astrojs-mixpanel/issues"
+  },
+  "peerDependencies": {
+    "astro": "^4.0.0"
+  },
+  "dependencies": {
+    "mixpanel-browser": "^2.50.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "astro": "^4.0.0",
+    "jsdom": "^23.0.0",
+    "typescript": "^5.0.0"
+  }
+}
